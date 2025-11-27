@@ -1,25 +1,43 @@
 import { Button } from "@/components/ui/button";
-import type { ProductDTO } from "../dtos/product.dto";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { ProductDTO } from "../dtos/product.dto";
+import { toast } from "react-toastify";
 
 export function ProductCard({ product }: { product: ProductDTO }) {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
-  // const rating = product.rating ?? 0;
-  const rating = 0;
-  // const reviewCount = product.reviewCount ?? 0;
-  const reviewCount = 0;
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const isInCart = cart.some((item: any) => item.id === product.id);
+
+  function addToCart() {
+    if (isInCart) return;
+
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    toast('Produto adicionado ao carrinho!');
+  }
 
   return (
     <div
       className="
         relative border border-gray-200 rounded-xl p-3 
         shadow-sm hover:shadow-md transition-all duration-200
-        bg-white cursor-pointer
-        hover:-translate-y-1
+        bg-white cursor-pointer hover:-translate-y-1
       "
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => navigate(`/products/${product.id}`)}
     >
       <div className="relative">
         <img
@@ -27,24 +45,13 @@ export function ProductCard({ product }: { product: ProductDTO }) {
           className="w-full h-40 object-cover rounded-lg"
         />
 
-        {!hovered && (
-          <div className="
-            absolute top-2 right-2 
-            bg-white/80 backdrop-blur-sm 
-            px-2 py-1 rounded-lg 
-            flex items-center gap-1 shadow
-          ">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <span key={i} className={i < rating ? "text-yellow-400" : "text-gray-300"}>
-                ★
-              </span>
-            ))}
-            <span className="text-xs text-gray-600">({reviewCount})</span>
-          </div>
-        )}
-
         {hovered && (
           <Button
+            disabled={isInCart}
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart();
+            }}
             className="
               absolute top-2 right-2 
               bg-primary text-white text-sm 
@@ -52,7 +59,7 @@ export function ProductCard({ product }: { product: ProductDTO }) {
               hover:bg-blend-overlay transition
             "
           >
-            Adicionar
+            {isInCart ? "Adicionado" : "Adicionar"}
           </Button>
         )}
       </div>
