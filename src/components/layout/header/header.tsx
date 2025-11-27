@@ -6,7 +6,7 @@ export function Header() {
 
   return (
     <header className="w-full h-16 border-b flex items-center justify-between px-4">
-      <h1 onClick={() => navigate('/')} className="text-xl font-bold">E-commerce</h1>
+      <h1 onClick={() => navigate('/')} className="text-xl font-bold cursor-pointer">JuniorShop</h1>
       <HeaderIcons />
     </header>
   );

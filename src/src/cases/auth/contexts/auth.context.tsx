@@ -4,6 +4,7 @@ import { createContext, useEffect, useState, type ReactNode } from "react";
 
 interface AuthContextType {
     user: UserResponse | null;
+    loading: boolean;
     signIn: (data: AuthResponse) => void;
     signOut: () => void;
 }
@@ -17,12 +18,14 @@ export function AuthContextProvider({
     children
 }: AuthContextProviderProps) {
     const [user, setUser] = useState<UserResponse | null>(null)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const userStoraged = localStorage.getItem('user')
         const tokenStoraged = localStorage.getItem('token')
 
         if (userStoraged) setUser(JSON.parse(userStoraged))
+        setLoading(false);
     }, [])
 
     function signIn(data: AuthResponse) {
@@ -40,7 +43,7 @@ export function AuthContextProvider({
     }
 
     return (
-        <AuthContext.Provider value={{user, signIn, signOut}}>
+        <AuthContext.Provider value={{user, loading, signIn, signOut}}>
             {children}
         </AuthContext.Provider>
     )

@@ -5,7 +5,7 @@ export function HeaderIcons() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex gap-4 items-center text-gray-700">
+    <div className="flex gap-4 items-center text-gray-700 cursor-pointer">
       <User onClick={() => navigate("/login")} />
 
       <ShoppingCart
