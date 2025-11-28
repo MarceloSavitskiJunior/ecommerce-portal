@@ -9,6 +9,7 @@ import { CheckoutPage } from "./src/pages/checkout"
 import { OrderPage } from "./src/pages/order-page"
 import { ToastContainer } from "react-toastify"
 import { PrivateRoute } from "./src/routes/private.route"
+import { FavoritesPage } from "./src/cases/favorites/components/favorite-page"
 
 function App() {
 
@@ -36,6 +37,11 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/favorites" element={
+                <PrivateRoute>
+                  <FavoritesPage />
+                </PrivateRoute>
+              } />
           </Routes>
 
           <ToastContainer position="top-right" autoClose={3000} />

@@ -37,7 +37,6 @@ export function OrderContent({ order }: OrderContentProps) {
           <Card key={item.id} className="shadow-md hover:shadow-lg transition">
             <CardContent className="p-6 space-y-4">
 
-              {/* Cabeçalho | Data + Status */}
               <div className="flex items-center justify-between">
                 <p className="text-sm text-muted-foreground">
                   Pedido realizado em{" "}
@@ -54,7 +53,6 @@ export function OrderContent({ order }: OrderContentProps) {
                 </span>
               </div>
 
-              {/* Customer */}
               {item.customer && (
                 <div className="text-sm">
                   <p className="text-muted-foreground">Cliente</p>
